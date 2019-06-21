@@ -1,0 +1,3 @@
+/home/colin/catkin_modelas_ws/src/test_elas/CMakeFiles/rebuild_cache.dir
+/home/colin/catkin_modelas_ws/src/test_elas/CMakeFiles/edit_cache.dir
+/home/colin/catkin_modelas_ws/src/test_elas/CMakeFiles/test_elas.dir
