@@ -6,14 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/colin/catkin_modelas_ws/src/orig_elas/src/descriptor.cpp
-descriptor.h
-/home/colin/catkin_modelas_ws/src/orig_elas/src/descriptor.h
-filter.h
-/home/colin/catkin_modelas_ws/src/orig_elas/src/filter.h
-emmintrin.h
--
-
 /home/colin/catkin_modelas_ws/src/orig_elas/src/descriptor.h
 iostream
 -
@@ -66,26 +58,6 @@ stdint.h
 timer.h
 /home/colin/catkin_modelas_ws/src/orig_elas/src/timer.h
 
-/home/colin/catkin_modelas_ws/src/orig_elas/src/filter.cpp
-stdio.h
--
-string.h
--
-cassert
--
-filter.h
-/home/colin/catkin_modelas_ws/src/orig_elas/src/filter.h
-stdint.h
--
-
-/home/colin/catkin_modelas_ws/src/orig_elas/src/filter.h
-emmintrin.h
--
-pmmintrin.h
--
-stdint.h
--
-
 /home/colin/catkin_modelas_ws/src/orig_elas/src/main.cpp
 unistd.h
 -
@@ -113,14 +85,6 @@ elas.h
 /home/colin/catkin_modelas_ws/src/orig_elas/src/elas.h
 boost/progress.hpp
 /home/colin/catkin_modelas_ws/src/orig_elas/src/boost/progress.hpp
-
-/home/colin/catkin_modelas_ws/src/orig_elas/src/matrix.cpp
-matrix.h
-/home/colin/catkin_modelas_ws/src/orig_elas/src/matrix.h
-algorithm
--
-math.h
--
 
 /home/colin/catkin_modelas_ws/src/orig_elas/src/matrix.h
 stdio.h
@@ -155,18 +119,6 @@ sys/time.h
 -
 stdint.h
 -
-
-/home/colin/catkin_modelas_ws/src/orig_elas/src/triangle.cpp
-stdio.h
--
-stdlib.h
--
-string.h
--
-math.h
--
-triangle.h
-/home/colin/catkin_modelas_ws/src/orig_elas/src/triangle.h
 
 /home/colin/catkin_modelas_ws/src/orig_elas/src/triangle.h
 

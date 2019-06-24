@@ -18,7 +18,6 @@ You should have received a copy of the GNU General Public License along with
 libelas; if not, write to the Free Software Foundation, Inc., 51 Franklin
 Street, Fifth Floor, Boston, MA 02110-1301, USA 
 */
-
 #include "elas.h"
 
 #include <algorithm>
@@ -56,12 +55,14 @@ void Elas:: process(const Mat &image_left, const Mat &image_right, float *D1, fl
 #ifdef PROFILE
   timer.start("Descriptor");  
 #endif
+
   Descriptor desc1(I1,width,height,bpl,param.subsampling);
   Descriptor desc2(I2,width,height,bpl,param.subsampling);
 
 #ifdef PROFILE
   timer.start("Support Matches");
 #endif
+
   vector<support_pt> p_support = computeSupportMatches(desc1.I_desc,desc2.I_desc);
   cout << "support points:"<<p_support.size() << endl;
   // if not enough support points for triangulation
@@ -71,16 +72,17 @@ void Elas:: process(const Mat &image_left, const Mat &image_right, float *D1, fl
     _mm_free(I2);
     return;
   }
-
 #ifdef PROFILE
   timer.start("Delaunay Triangulation");
 #endif
+
   vector<triangle> tri_1 = computeDelaunayTriangulation(p_support,0);
   vector<triangle> tri_2 = computeDelaunayTriangulation(p_support,1);
 
 #ifdef PROFILE
   timer.start("Disparity Planes");
 #endif
+
   computeDisparityPlanes(p_support,tri_1,0);
   computeDisparityPlanes(p_support,tri_2,1);
 
@@ -94,7 +96,7 @@ void Elas:: process(const Mat &image_left, const Mat &image_right, float *D1, fl
   int32_t grid_dims[3] = {param.disp_max+2,grid_width,grid_height};
   int32_t* disparity_grid_1 = (int32_t*)calloc((param.disp_max+2)*grid_height*grid_width,sizeof(int32_t));
   int32_t* disparity_grid_2 = (int32_t*)calloc((param.disp_max+2)*grid_height*grid_width,sizeof(int32_t));
-  
+ 
   createGrid(p_support,disparity_grid_1,grid_dims,0);
   createGrid(p_support,disparity_grid_2,grid_dims,1);
 
