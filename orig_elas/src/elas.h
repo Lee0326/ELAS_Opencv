@@ -117,7 +117,7 @@ public:
         filter_median         = 0;
         filter_adaptive_mean  = 1;
         postprocess_only_left = 1;
-        subsampling           = 0;
+        subsampling           = 1;
         
       // default settings for middlebury benchmark
       // (interpolate all missing disparities)

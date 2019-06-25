@@ -6,5 +6,5 @@ CXX_FLAGS = -msse3 -O3 -DNDEBUG   -std=c++11
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/colin/catkin_modelas_ws/src/orig_elas/src -isystem /opt/ros/kinetic/include/opencv-3.3.1-dev -isystem /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv 
+CXX_INCLUDES = -I/home/colin/catkin_modelas_ws/src/orig_elas/src -I/home/colin/catkin_modelas_ws/src/orig_elas/... -isystem /opt/ros/kinetic/include/opencv-3.3.1-dev -isystem /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv 
 

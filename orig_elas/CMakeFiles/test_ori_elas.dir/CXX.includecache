@@ -73,6 +73,8 @@ opencv2/imgcodecs.hpp
 -
 boost/format.hpp
 -
+boost/filesystem.hpp
+-
 boost/assert.hpp
 -
 algorithm
@@ -85,6 +87,10 @@ elas.h
 /home/colin/catkin_modelas_ws/src/orig_elas/src/elas.h
 boost/progress.hpp
 /home/colin/catkin_modelas_ws/src/orig_elas/src/boost/progress.hpp
+fstream
+-
+iostream
+-
 
 /home/colin/catkin_modelas_ws/src/orig_elas/src/matrix.h
 stdio.h

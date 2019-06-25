@@ -30,6 +30,7 @@ bool Elas::process(const Mat &image_left, const Mat &image_right, Mat &disparity
         cout << support_points_.size() << endl;
     }
 
+
     cout << "Compute Triangulate" << endl;
     vector<Vec6f> triangulate_left, triangulate_right;
     {

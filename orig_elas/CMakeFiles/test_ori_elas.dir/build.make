@@ -180,6 +180,8 @@ test_ori_elas: /opt/ros/kinetic/lib/x86_64-linux-gnu/libopencv_xfeatures2d3.so.3
 test_ori_elas: /opt/ros/kinetic/lib/x86_64-linux-gnu/libopencv_ximgproc3.so.3.3.1
 test_ori_elas: /opt/ros/kinetic/lib/x86_64-linux-gnu/libopencv_xobjdetect3.so.3.3.1
 test_ori_elas: /opt/ros/kinetic/lib/x86_64-linux-gnu/libopencv_xphoto3.so.3.3.1
+test_ori_elas: /usr/lib/x86_64-linux-gnu/libboost_system.so
+test_ori_elas: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
 test_ori_elas: /opt/ros/kinetic/lib/x86_64-linux-gnu/libopencv_shape3.so.3.3.1
 test_ori_elas: /opt/ros/kinetic/lib/x86_64-linux-gnu/libopencv_photo3.so.3.3.1
 test_ori_elas: /opt/ros/kinetic/lib/x86_64-linux-gnu/libopencv_datasets3.so.3.3.1

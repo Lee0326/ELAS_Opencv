@@ -64,7 +64,7 @@ void Elas:: process(const Mat &image_left, const Mat &image_right, float *D1, fl
 #endif
 
   vector<support_pt> p_support = computeSupportMatches(desc1.I_desc,desc2.I_desc);
-  cout << "support points:"<<p_support.size() << endl;
+  // cout << "support points:"<<p_support.size() << endl;
   // if not enough support points for triangulation
   if (p_support.size()<3) {
     cout << "ERROR: Need at least 3 support points!" << endl;

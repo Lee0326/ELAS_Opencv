@@ -28,12 +28,14 @@ using std::cout;
 using std::endl;
 using std::string;
 using std::vector;
+
 void test_descriptor(Mat image_left, Mat image_right, int width_, int height_)
 {   
     int subsampling = 0; 
-    Descriptor descriptor_left(image_left, width_, height_, subsampling);
-    Descriptor descriptor_right(image_right, width_, height_, subsampling);
-    Mat dscpt = descriptor_left.CreateDescriptor();
+    Descriptor descriptor_l(image_left, width_, height_, subsampling);
+    Descriptor descriptor_r(image_right, width_, height_, subsampling);
+    Mat descriptor_left = descriptor_l.CreateDescriptor();
+    Mat descriptor_right = descriptor_r.CreateDescriptor();
 }
 int main(int argc, char *argv[])
 {
@@ -68,15 +70,7 @@ int main(int argc, char *argv[])
     param.postprocess_only_left = false;
     Elas elas(param);
     elas.process(left_gray, right_gray, disparity1, disparity2);
-    //Descriptor descriptor_left(image_left, width_, height_, param.subsampling);
-    //Descriptor descriptor_right(image_right, width_, height_, param.subsampling);
-    //elas.descriptor_left_ = descriptor_left.CreateDescriptor();
-    //elas.descriptor_right_ = descriptor_right.CreateDescriptor();
-    //vector<Point3i> support_points = elas.ComputeSupportMatches();
-    
-    // imwrite("disparity.pgm", disparity1);
-
     // test the function of descriptor
-    // test_descriptor(left_gray, right_gray, width_, height_);
+    //test_descriptor(left_gray, right_gray, width_, height_);
     return 0;
 }
