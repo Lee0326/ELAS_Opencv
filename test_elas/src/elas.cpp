@@ -35,8 +35,7 @@ bool Elas::process(const Mat &image_left, const Mat &image_right, Mat &disparity
         support_points_ = ComputeSupportMatches();
         cout << support_points_.size() << endl;
     }
-SaveSupportPoints();
-
+    SaveSupportPoints();
     cout << "Compute Triangulate" << endl;
     vector<Vec6f> triangulate_left, triangulate_right;
     {
@@ -284,7 +283,7 @@ int Elas::ComputeMatchingDisparity(const int &u, const int &v, const bool &right
     uchar *left_up, *left_left, *left_right, *left_bottom, *right_up, *right_left, *right_right, *right_bottom;
     int sum, min_energy = INT_MAX, sec_min_energy = INT_MAX, min_disparity = -1, sec_min_disparity = -1;
 
-    for (int d = disp_min_valid; d <= disp_max_valid; ++d)
+    for (int d = disp_min_valid; d <= disp_max_valid; d++)
     {
         if (right_image)
         {

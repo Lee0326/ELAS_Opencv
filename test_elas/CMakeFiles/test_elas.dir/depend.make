@@ -71,6 +71,7 @@ CMakeFiles/test_elas.dir/src/descriptor.cpp.o: /opt/ros/kinetic/include/opencv-3
 CMakeFiles/test_elas.dir/src/descriptor.cpp.o: /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/flann/saving.h
 CMakeFiles/test_elas.dir/src/descriptor.cpp.o: /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/flann/timer.h
 CMakeFiles/test_elas.dir/src/descriptor.cpp.o: /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/highgui.hpp
+CMakeFiles/test_elas.dir/src/descriptor.cpp.o: /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/highgui/highgui.hpp
 CMakeFiles/test_elas.dir/src/descriptor.cpp.o: /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/highgui/highgui_c.h
 CMakeFiles/test_elas.dir/src/descriptor.cpp.o: /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/imgcodecs.hpp
 CMakeFiles/test_elas.dir/src/descriptor.cpp.o: /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/imgcodecs/imgcodecs_c.h

@@ -27,7 +27,7 @@ public:
         int support_texture = 10;        // min texture for support points
         int candidate_stepsize = 5;      // step size of regular grid on which support points are matched
         int incon_window_size = 5;       // window size of inconsistent support point check
-        int incon_threshold = 5;         // disparity similarity threshold for support point to be considered consistent
+        int incon_threshold = 10;         // disparity similarity threshold for support point to be considered consistent
         int incon_min_support = 5;       // minimum number of consistent support points
         bool add_corners = 0;            // add support points at image corners with nearest neighbor disparities
         int grid_size = 20;              // size of neighborhood for additional support point extrapolation

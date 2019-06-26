@@ -3,26 +3,31 @@
 #include "descriptor.h"
 #include <opencv2/opencv.hpp>
 #include <opencv2/xfeatures2d.hpp>
+#include <opencv2/imgproc.hpp>
+#include <opencv2/highgui/highgui.hpp>
 
 using namespace cv;
 using namespace std;
 using namespace cv::xfeatures2d;
 
-/**
- * @brief 
- * 
- */
 Descriptor::Descriptor(const Mat &img, const int &width, const int &height)
     : width_(width), height_(height), image(img.clone())
 {
-  Sobel(img, grad_x, CV_16S, 1, 0, 3, 1, 1, BORDER_DEFAULT);
-  Sobel(img, grad_y, CV_16S, 0, 1, 3, 1, 1, BORDER_DEFAULT);
-  grad_x += 128;
-  grad_x.convertTo(grad_x, CV_8U);
-  blur(grad_x, grad_x, Size(3, 3));
-  grad_y += 128;
-  grad_y.convertTo(grad_y, CV_8U);
-  blur(grad_y, grad_y, Size(5, 5));
+  Mat filtered_x, filtered_y;
+  // bilateralFilter(img, filtered, 5, 2, 2);
+
+  Sobel(img, filtered_x, CV_16S, 1, 0, 3, 1, 1, BORDER_DEFAULT);
+  Sobel(img, filtered_y, CV_16S, 0, 1, 3, 1, 1, BORDER_DEFAULT);
+  filtered_x += 128;
+  filtered_x.convertTo(filtered_x, CV_8U);
+  // GaussianBlur(grad_x, grad_x, Size(5, 5), 0, 0);
+  bilateralFilter(filtered_x, grad_x, 11, 11 * 2, 11 / 2);
+
+  filtered_y += 128;
+  filtered_y.convertTo(filtered_y, CV_8U);
+  // GaussianBlur(grad_y, grad_y, Size(5, 5), 0, 0);
+  bilateralFilter(filtered_y, grad_y, 11, 11 * 2, 11 / 2);
+
   // imshow("A", grad_x);
   // waitKey();
 }
@@ -57,8 +62,8 @@ Descriptor::~Descriptor()
 Mat Descriptor::CreateDescriptor()
 {
   Mat descriptor(width_ * height_, 16, CV_8U, Scalar(0));
-  int width_step = descriptor.step[1], height_step = descriptor.step[0];
   int step = grad_x.step;
+
   for (int v = 2; v < height_ - 2; ++v)
   {
     const uchar *data_x = grad_x.ptr<uchar>(v);
