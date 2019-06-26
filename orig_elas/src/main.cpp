@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
 {
     // process all the images in the /img/ folder
     string format_input = "jpg";
-    string data_dir = "img/";
+    string data_dir = "/home/colin/catkin_modelas_ws/src/orig_elas/img/";
     
     if (argc==2 && !strcmp(argv[1], "demo")) 
     {

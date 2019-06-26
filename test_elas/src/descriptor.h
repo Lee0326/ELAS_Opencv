@@ -18,9 +18,9 @@ public:
   Descriptor() = delete;
   // deconstructor releases memory
   ~Descriptor();
-  
+
   // constructor creates filters
-  Descriptor(const Mat &image, const int &width, const int &height, const bool &subsampling);
+  Descriptor(const Mat &image, const int &width, const int &height);
 
   Mat CreateDescriptor();
 
@@ -29,6 +29,8 @@ private:
   Mat grad_x, grad_y;
   int width_, height_;
   bool subsampling_;
+
+  Mat image;
 };
 
 #endif // SINEVA_AUTOWARE_ROS_SRC_COMPUTING_PERCEPTION_LOCALIZATION_PACKAGES_SINEVA_STEREO_INCLUDE_DESCRIPTOR_H_

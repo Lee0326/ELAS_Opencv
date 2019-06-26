@@ -33,6 +33,10 @@ triangle.h
 /home/colin/catkin_modelas_ws/src/orig_elas/src/triangle.h
 matrix.h
 /home/colin/catkin_modelas_ws/src/orig_elas/src/matrix.h
+fstream
+-
+iostream
+-
 
 /home/colin/catkin_modelas_ws/src/orig_elas/src/elas.h
 iostream

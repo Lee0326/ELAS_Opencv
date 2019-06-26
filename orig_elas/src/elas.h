@@ -117,7 +117,7 @@ public:
         filter_median         = 0;
         filter_adaptive_mean  = 1;
         postprocess_only_left = 1;
-        subsampling           = 1;
+        subsampling           = 0;
         
       // default settings for middlebury benchmark
       // (interpolate all missing disparities)
@@ -190,6 +190,7 @@ public:
   }
 
   // support point functions
+  void SaveSupportPoints (std::vector<support_pt> &p_support);
   void removeInconsistentSupportPoints (int16_t* D_can,int32_t D_can_width,int32_t D_can_height);
   void removeRedundantSupportPoints (int16_t* D_can,int32_t D_can_width,int32_t D_can_height,
                                      int32_t redun_max_dist, int32_t redun_threshold, bool vertical);

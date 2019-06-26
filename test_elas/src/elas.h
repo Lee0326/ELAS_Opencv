@@ -23,7 +23,7 @@ public:
     {
         int disp_min = 10;               // min disparity
         int disp_max = 255;              // max disparity
-        float support_threshold = 0.85;  // max. uniqueness ratio (best vs. second best support match)
+        float support_threshold = 0.95;  // max. uniqueness ratio (best vs. second best support match)
         int support_texture = 10;        // min texture for support points
         int candidate_stepsize = 5;      // step size of regular grid on which support points are matched
         int incon_window_size = 5;       // window size of inconsistent support point check
@@ -55,22 +55,21 @@ public:
     ~Elas() {}
     bool process(const Mat &image_left, const Mat &image_right, Mat &disparity_left, Mat &disparity_right);
 
+private:
+void SaveSupportPoints();
     vector<Point3i> ComputeSupportMatches();
     int ComputeMatchingDisparity(const int &u, const int &v, const bool &right_image);
     int ComputeSAD();
     void RemoveInconsistentSupportPoints(Mat &D_can);
     vector<Vec6f> ComputeDelaunayTriangulation(const bool &right_image);
 
-    void RemoveRedundantSupportPoints(Mat &D_can, int redun_max_dist, int redun_threshold, bool vertical);
     vector<Vec6f> ComputeDisparityPlanes(const vector<Vec6f> &triangulate_points, vector<Vec3d> &triangulate_d);
     void CreateGrid(Mat &disparity_grid, const Size &disparity_grid_size, const bool &right_image);
-    void ComputeDisparity(const vector<Vec6f> triangulate_points, const vector<Vec6f> &triangulate_params, const Mat &disparity_grid,
+    void ComputeDisparity(const vector<Vec6f> &triangulate_points, const vector<Vec6f> &triangulate_params, const Mat &disparity_grid,
                           const Size &disparity_grid_size, const bool &right_image, const vector<Vec3d> &triangulate_d, Mat &disparity);
     void findMatch(const int32_t &u, const int32_t &v, const float &plane_a, const float &plane_b, const float &plane_c, const Mat &disparity_grid,
                    const Size &disparity_grid_size, int32_t *P, const int32_t &plane_radius, const bool &valid, const bool &right_image, Mat &disparity);
-
-    void updatePosteriorMinimum(const int32_t &u, const int32_t &v, const int32_t &d, const int32_t &u_warp, const int32_t &w,
-                                int32_t &val, int32_t &min_val, int32_t &min_d);
+    void RemoveRedundantSupportPoints(Mat &D_can, int32_t redun_max_dist, int32_t redun_threshold, bool vertical);
 
     // parameter set
     parameters param_;
@@ -79,6 +78,7 @@ public:
     int width_, height_;
     Mat descriptor_left_, descriptor_right_;
     vector<Point3i> support_points_;
+    Mat image_left_, image_right_;
 };
 
 #endif // SINEVA_AUTOWARE_ROS_SRC_COMPUTING_PERCEPTION_LOCALIZATION_PACKAGES_SINEVA_STEREO_INCLUDE_ELAS_H_

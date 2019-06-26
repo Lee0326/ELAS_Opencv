@@ -25,6 +25,8 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA
 #include "descriptor.h"
 #include "triangle.h"
 #include "matrix.h"
+#include <fstream>
+#include <iostream>
 
 using namespace std;
 
@@ -72,6 +74,8 @@ void Elas:: process(const Mat &image_left, const Mat &image_right, float *D1, fl
     _mm_free(I2);
     return;
   }
+  SaveSupportPoints(p_support);
+
 #ifdef PROFILE
   timer.start("Delaunay Triangulation");
 #endif
@@ -152,6 +156,16 @@ void Elas:: process(const Mat &image_left, const Mat &image_right, float *D1, fl
   free(disparity_grid_2);
   _mm_free(I1);
   _mm_free(I2);
+}
+void Elas::SaveSupportPoints (std::vector<support_pt> &p_support)
+{ 
+  string point_file = "Support_Points_ori.txt";
+  ofstream outFile(point_file.c_str());
+  for (auto point : p_support)
+  {
+    outFile << point.u << ' ' << point.v << ' ' << point.d;
+    outFile << endl;
+  }
 }
 
 void Elas::removeInconsistentSupportPoints (int16_t* D_can,int32_t D_can_width,int32_t D_can_height) {

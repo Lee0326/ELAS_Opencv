@@ -29,24 +29,16 @@ using std::endl;
 using std::string;
 using std::vector;
 
-void test_descriptor(Mat image_left, Mat image_right, int width_, int height_)
-{   
-    int subsampling = 0; 
-    Descriptor descriptor_l(image_left, width_, height_, subsampling);
-    Descriptor descriptor_r(image_right, width_, height_, subsampling);
-    Mat descriptor_left = descriptor_l.CreateDescriptor();
-    Mat descriptor_right = descriptor_r.CreateDescriptor();
-}
+
 int main(int argc, char *argv[])
 {
-    string data_dir = "img/";
+    string data_dir = "/home/colin/catkin_modelas_ws/src/test_elas/img/";
     string left_image = argv[1];
     string right_image = argv[2];
     Mat left = imread(data_dir + left_image);
     Mat right = imread(data_dir +  right_image);
     int width_ = left.cols;
     int height_ = left.rows;
-    const int32_t dims[3] = {width_, height_, width_}; //bytes per line = width
     cv::Mat left_gray, right_gray;
     Mat disparity1(height_, width_, CV_32F);
     Mat disparity2(height_, width_, CV_32F);
@@ -69,7 +61,7 @@ int main(int argc, char *argv[])
     Elas::parameters param;
     param.postprocess_only_left = false;
     Elas elas(param);
-    elas.process(left_gray, right_gray, disparity1, disparity2);
+    elas.process(image_left, image_right, disparity1, disparity2);
     // test the function of descriptor
     //test_descriptor(left_gray, right_gray, width_, height_);
     return 0;
