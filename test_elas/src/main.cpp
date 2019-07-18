@@ -32,13 +32,13 @@ using std::vector;
 
 int main(int argc, char *argv[])
 {
-    string data_dir = "/home/colin/catkin_modelas_ws/src/test_elas/img/";
+    string data_dir = "/home/lee/ELAS_Opencv/test_elas/img/";
     string left_image = argv[1];
     string right_image = argv[2];
     Mat left = imread(data_dir + left_image);
     Mat right = imread(data_dir +  right_image);
     int width_ = left.cols;
-    int height_ = left.rows;
+    int height_ = left.rows;		
     cv::Mat left_gray, right_gray;
     Mat disparity1(height_, width_, CV_32F);
     Mat disparity2(height_, width_, CV_32F);
@@ -62,6 +62,7 @@ int main(int argc, char *argv[])
     param.postprocess_only_left = false;
     Elas elas(param);
     elas.process(image_left, image_right, disparity1, disparity2);
+    imwrite("disparity.pgm", disparity1);
     // test the function of descriptor
     //test_descriptor(left_gray, right_gray, width_, height_);
     return 0;

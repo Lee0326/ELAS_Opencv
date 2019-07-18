@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/test_elas.dir/src/descriptor.cpp.o"
-  "CMakeFiles/test_elas.dir/src/elas.cpp.o"
   "CMakeFiles/test_elas.dir/src/main.cpp.o"
+  "CMakeFiles/test_elas.dir/src/elas.cpp.o"
+  "CMakeFiles/test_elas.dir/src/descriptor.cpp.o"
   "test_elas.pdb"
   "test_elas"
 )

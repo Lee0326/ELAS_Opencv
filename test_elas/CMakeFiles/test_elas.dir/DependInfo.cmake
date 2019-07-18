@@ -4,9 +4,9 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/colin/catkin_modelas_ws/src/test_elas/src/descriptor.cpp" "/home/colin/catkin_modelas_ws/src/test_elas/CMakeFiles/test_elas.dir/src/descriptor.cpp.o"
-  "/home/colin/catkin_modelas_ws/src/test_elas/src/elas.cpp" "/home/colin/catkin_modelas_ws/src/test_elas/CMakeFiles/test_elas.dir/src/elas.cpp.o"
-  "/home/colin/catkin_modelas_ws/src/test_elas/src/main.cpp" "/home/colin/catkin_modelas_ws/src/test_elas/CMakeFiles/test_elas.dir/src/main.cpp.o"
+  "/home/lee/ELAS_Opencv/test_elas/src/descriptor.cpp" "/home/lee/ELAS_Opencv/test_elas/CMakeFiles/test_elas.dir/src/descriptor.cpp.o"
+  "/home/lee/ELAS_Opencv/test_elas/src/elas.cpp" "/home/lee/ELAS_Opencv/test_elas/CMakeFiles/test_elas.dir/src/elas.cpp.o"
+  "/home/lee/ELAS_Opencv/test_elas/src/main.cpp" "/home/lee/ELAS_Opencv/test_elas/CMakeFiles/test_elas.dir/src/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
