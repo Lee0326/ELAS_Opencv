@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC   -shared -Wl,-soname,libgtest_main.so -o libgtest_main.so CMakeFiles/gtest_main.dir/src/gtest_main.cc.o  -L/home/colin/catkin_modelas_ws/src/orb_elas/build/gtest/gtest/src -Wl,-rpath,/home/colin/catkin_modelas_ws/src/orb_elas/build/gtest/gtest/src:/home/colin/catkin_modelas_ws/src/orb_elas/build/gtest/gtest -lpthread libgtest.so -lpthread 

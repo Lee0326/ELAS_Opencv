@@ -1,3 +1,0 @@
-/home/lee/ELAS_Opencv/orig_elas/CMakeFiles/edit_cache.dir
-/home/lee/ELAS_Opencv/orig_elas/CMakeFiles/rebuild_cache.dir
-/home/lee/ELAS_Opencv/orig_elas/CMakeFiles/test_ori_elas.dir

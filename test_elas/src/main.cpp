@@ -32,7 +32,7 @@ using std::vector;
 
 int main(int argc, char *argv[])
 {
-    string data_dir = "/home/lee/ELAS_Opencv/test_elas/img/";
+    string data_dir = "/home/colin/catkin_modelas_ws/src/test_elas/img/";
     string left_image = argv[1];
     string right_image = argv[2];
     Mat left = imread(data_dir + left_image);

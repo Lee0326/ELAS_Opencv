@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,21 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/lee/ELAS_Opencv/test_elas/src/descriptor.cpp
-emmintrin.h
--
-descriptor.h
-/home/lee/ELAS_Opencv/test_elas/src/descriptor.h
-opencv2/opencv.hpp
--
-opencv2/xfeatures2d.hpp
--
-opencv2/imgproc.hpp
--
-opencv2/highgui/highgui.hpp
--
-
-/home/lee/ELAS_Opencv/test_elas/src/descriptor.h
+/home/colin/catkin_modelas_ws/src/test_elas/src/descriptor.h
 iostream
 -
 stdio.h
@@ -36,27 +22,7 @@ stdint.h
 opencv2/opencv.hpp
 -
 
-/home/lee/ELAS_Opencv/test_elas/src/elas.cpp
-algorithm
--
-math.h
--
-cassert
--
-elas.h
-/home/lee/ELAS_Opencv/test_elas/src/elas.h
-descriptor.h
-/home/lee/ELAS_Opencv/test_elas/src/descriptor.h
-boost/progress.hpp
-/home/lee/ELAS_Opencv/test_elas/src/boost/progress.hpp
-opencv2/xfeatures2d.hpp
--
-fstream
--
-iostream
--
-
-/home/lee/ELAS_Opencv/test_elas/src/elas.h
+/home/colin/catkin_modelas_ws/src/test_elas/src/elas.h
 iostream
 -
 stdio.h
@@ -76,7 +42,7 @@ opencv2/core/mat.hpp
 opencv2/opencv.hpp
 -
 
-/home/lee/ELAS_Opencv/test_elas/src/main.cpp
+/home/colin/catkin_modelas_ws/src/test_elas/src/main.cpp
 unistd.h
 -
 sys/time.h
@@ -98,11 +64,11 @@ algorithm
 math.h
 -
 descriptor.h
-/home/lee/ELAS_Opencv/test_elas/src/descriptor.h
+/home/colin/catkin_modelas_ws/src/test_elas/src/descriptor.h
 elas.h
-/home/lee/ELAS_Opencv/test_elas/src/elas.h
+/home/colin/catkin_modelas_ws/src/test_elas/src/elas.h
 boost/progress.hpp
-/home/lee/ELAS_Opencv/test_elas/src/boost/progress.hpp
+/home/colin/catkin_modelas_ws/src/test_elas/src/boost/progress.hpp
 iostream
 -
 
@@ -913,10 +879,6 @@ opencv2/videoio.hpp
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/opencv2/videoio.hpp
 opencv2/highgui/highgui_c.h
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/opencv2/highgui/highgui_c.h
-
-/opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/highgui/highgui.hpp
-opencv2/highgui.hpp
-/opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/highgui/opencv2/highgui.hpp
 
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/highgui/highgui_c.h
 opencv2/core/core_c.h
