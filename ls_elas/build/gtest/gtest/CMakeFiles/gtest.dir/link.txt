@@ -1,1 +1,1 @@
-/usr/bin/c++ -fPIC   -shared -Wl,-soname,libgtest.so -o libgtest.so CMakeFiles/gtest.dir/src/gtest-all.cc.o  -L/home/colin/catkin_modelas_ws/src/ls_elas/build/gtest/gtest/src -Wl,-rpath,/home/colin/catkin_modelas_ws/src/ls_elas/build/gtest/gtest/src -lpthread 
+/usr/bin/c++  -fPIC   -shared -Wl,-soname,libgtest.so -o libgtest.so CMakeFiles/gtest.dir/src/gtest-all.cc.o  -L/home/lee/ELAS_Opencv/ls_elas/build/gtest/gtest/src -lpthread -Wl,-rpath,/home/lee/ELAS_Opencv/ls_elas/build/gtest/gtest/src 

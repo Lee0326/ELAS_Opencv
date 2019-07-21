@@ -29,6 +29,7 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA
 #include <iostream>
 
 using namespace std;
+using namespace cv;
 
 void Elas:: process(const Mat &image_left, const Mat &image_right, float *D1, float *D2, const int32_t* dims){
   
@@ -38,6 +39,13 @@ void Elas:: process(const Mat &image_left, const Mat &image_right, float *D1, fl
   width  = dims[0];
   height = dims[1];
   bpl    = width + 15-(width-1)%16;
+
+  vector<vector<Point>> lineSegments;
+  Mat descriptor_left, descriptor_right;
+  Mat edgeMap, dirMap;
+
+  ExtractEdgeSegment(image_left, edgeMap, dirMap, lineSegments, width, height);
+  cout << "there are " << lineSegments.size() << " line segments in total." << endl;
   
   // copy images to byte aligned memory
   I1 = (uint8_t*)_mm_malloc(bpl*height*sizeof(uint8_t),16);
@@ -65,7 +73,7 @@ void Elas:: process(const Mat &image_left, const Mat &image_right, float *D1, fl
   timer.start("Support Matches");
 #endif
 
-  vector<support_pt> p_support = computeSupportMatches(desc1.I_desc,desc2.I_desc);
+  vector<support_pt> p_support = computeSupportMatches(desc1.I_desc,desc2.I_desc,lineSegments);
   // cout << "support points:"<<p_support.size() << endl;
   // if not enough support points for triangulation
   if (p_support.size()<3) {
@@ -157,6 +165,83 @@ void Elas:: process(const Mat &image_left, const Mat &image_right, float *D1, fl
   _mm_free(I1);
   _mm_free(I2);
 }
+void Elas::ExtractEdgeSegment(const Mat &image_left, Mat &edgeMap, Mat &dirMap, 
+vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height)
+{
+  Mat src, grad_x, grad_y, magtitude;
+  vector<Point> seedlist;
+  bool useDegree = true; 
+  int scale = 1;
+  int delta = 0;
+  int ddepth = CV_32F;
+  src = image_left.clone();
+
+  GaussianBlur(src, edgeMap, Size(3,3), 0, 0, BORDER_DEFAULT);
+  //cvtColor(src, edgeMap, CV_BGR2GRAY);
+  Sobel( edgeMap, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT );
+  Sobel( edgeMap, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT );
+  cartToPolar(grad_x, grad_y, magtitude, dirMap, useDegree);
+  Canny( edgeMap, edgeMap, 3, 20, 3);
+  findNonZero(edgeMap, seedlist);
+  cout << "Edge points in total: " << seedlist.size() << endl;
+  for (int i = 0; i<seedlist.size(); i++)
+  {
+    Point seed = seedlist[i];
+    float direction = dirMap.at<float>(seed.y, seed.x);
+    float rev_direction = (direction<=180) ? direction+180 : direction-180;
+    vector<Point> lineSeg;
+    ExtractLineSeg(seed, lineSeg, direction, false, edgeMap, dirMap, width, height);
+    //extractLineSeg(seed, lineSeg, rev_direction, true, edgeMap);
+    if (lineSeg.size()>20)
+      lineSegments.push_back(lineSeg);
+  } 
+}
+
+void Elas::ExtractLineSeg(const Point &seed, vector<Point> &lineSeg, const float &direction, 
+bool reverse, Mat &edgeMap, const Mat &dirMap, const int32_t &width, const int32_t &height)
+{
+    Point adj;
+    adj.x = seed.x;
+    adj.y = seed.y;
+    float dir = direction;
+    int have_adj = 1;     
+    while (have_adj>0)
+    {       
+        have_adj = findAdj(adj, dir, edgeMap, width, height);
+        dir = dirMap.at<float>(adj.y, adj.x);
+        if (reverse)
+            dir = (dir <= 180) ? dir + 180 : dir - 180; 
+        if (have_adj>0)
+            lineSeg.push_back(adj);
+        // cout << "the x coordinate of the adjacent point: " << adj.x << endl;
+        // cout << "the y coordinate of the adjacent point: " << adj.y << endl;
+
+    }
+}
+
+int Elas::findAdj(Point &adj, float dir, Mat &edgeMap, const int32_t &width, const int32_t &height)
+{
+    edgeMap.at<uchar>(adj.y, adj.x) = 0;
+    vector<Point> adjcentPoints(8,adj);
+    adjcentPoints[0].y -= 1;adjcentPoints[1].x += 1;
+    adjcentPoints[1].y -= 1;adjcentPoints[2].x += 1;
+    adjcentPoints[3].x += 1;adjcentPoints[3].y += 1;
+    adjcentPoints[4].y += 1;adjcentPoints[5].x -= 1;
+    adjcentPoints[5].y += 1;adjcentPoints[6].x -= 1;
+    adjcentPoints[7].x -= 1;adjcentPoints[7].y -= 1;
+    for (int i=0; i<adjcentPoints.size(); i++)
+    {
+        Point adjpt = adjcentPoints[i];
+        if ((int)edgeMap.at<uchar>(adjpt.y, adjpt.x) > 0 && (adjpt.x > 0) && (adjpt.x < width) && (adjpt.y>0) && (adjpt.y < height))
+        {
+            adj.x = adjpt.x;
+            adj.y = adjpt.y;
+            return 1;
+        }
+    }
+    return -1;
+}
+
 void Elas::SaveSupportPoints (std::vector<support_pt> &p_support)
 { 
   string point_file = "Support_Points_ori.txt";
@@ -390,7 +475,7 @@ inline int16_t Elas::computeMatchingDisparity (const int32_t &u,const int32_t &v
     return -1;
 }
 
-vector<Elas::support_pt> Elas::computeSupportMatches (uint8_t* I1_desc,uint8_t* I2_desc) {
+vector<Elas::support_pt> Elas::computeSupportMatches (uint8_t* I1_desc,uint8_t* I2_desc, vector<vector<Point>> &lineSegments) {
   
   // be sure that at half resolution we only need data
   // from every second line!
@@ -429,6 +514,8 @@ vector<Elas::support_pt> Elas::computeSupportMatches (uint8_t* I1_desc,uint8_t* 
       }
     }
   }
+
+
   
   // remove inconsistent support points
   removeInconsistentSupportPoints(D_can,D_can_width,D_can_height);

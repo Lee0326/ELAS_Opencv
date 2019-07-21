@@ -26,7 +26,7 @@ public:
         int32_t disp_max = 255;          // max disparity
         int32_t grid_size = 20;          // size of neighborhood for additional support point extrapolation
         int32_t step_size = 2;
-        int32_t candidate_stepsize = 5;  // step size of regular grid on which support points are matched
+        int32_t candidate_stepsize = 2;  // step size of regular grid on which support points are matched
         float beta = 0.02;               // image likelihood parameter
         float gamma = 3;                 // prior constant
         float sigma = 1;                 // prior sigma
@@ -34,7 +34,7 @@ public:
         int32_t lr_threshold = 1;        // disparity threshold for left/right consistency check
         int32_t speckle_size = 200;      // maximal size of a speckle (small speckles get removed)
         int32_t ipol_gap_width = 10;     // interpolate small gaps (left<->right, top<->bottom)
-        float support_threshold = 0.9;   // max. uniqueness ratio (best vs. second best support match)
+        float support_threshold = 0.90;   // max. uniqueness ratio (best vs. second best support match)
 
     };
 
@@ -48,11 +48,11 @@ public:
     {
     }
 
-    bool process( Mat &image_left, const Mat &image_right, Mat &disparity_left, Mat &disparity_right);
+    bool process( Mat &image_left, const Mat &image_right, Mat &disparity_left, Mat &disparity_right, Mat &disp_gt);
 
     //void ComputeSupportMatches(const Mat &image_left, const Mat &image_right, vector<Point3i> &support_points);
 
-    void ComputeSupportMatches(const Mat &descriptor_left, const Mat &descriptor_right, vector<Point3i> &support_points, 
+    void ComputeSupportMatches(Mat &disp_gt, const Mat &descriptor_left, const Mat &descriptor_right, vector<Point3i> &support_points, 
     vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height);
 
 

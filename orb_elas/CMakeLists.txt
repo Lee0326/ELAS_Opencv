@@ -1,6 +1,6 @@
 # project
 cmake_minimum_required (VERSION 2.6)
-project (ls_elas)
+project (orb_elas)
 add_compile_options(-std=c++11)
 
 find_package(PkgConfig)
@@ -29,6 +29,6 @@ FILE(GLOB LIBELAS_SRC_FILES "src/*.cpp")
 set(CMAKE_BUILD_TYPE Release)
 
 # build demo program
-add_executable(ls_elas ${LIBELAS_SRC_FILES})
-target_link_libraries(ls_elas ${OpenCV_LIBS} ${catkin_LIBRARIES})
+add_executable(orb_elas ${LIBELAS_SRC_FILES})
+target_link_libraries(orb_elas ${OpenCV_LIBS} ${catkin_LIBRARIES})
 

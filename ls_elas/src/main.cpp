@@ -32,13 +32,13 @@ using std::vector;
 
 int main(int argc, char *argv[])
 {
-    string data_dir = "/home/colin/catkin_modelas_ws/src/ls_elas/img/";
-    //string left_image = argv[1];
-    string left_image = "im2.png"; 
-    string right_image = "im6.png";
-    // string right_image = argv[2];
+    string data_dir = "../img/";
+    string left_image = "aloe_left.pgm"; 
+    string right_image = "aloe_right.pgm";
+    string ground_truth = "aloe_left_disp.pgm";
     Mat left = imread(data_dir + left_image);
     Mat right = imread(data_dir +  right_image);
+    Mat disp_gt = imread(data_dir + ground_truth);
     int width_ = left.cols;
     int height_ = left.rows;		
     cv::Mat left_gray, right_gray;
@@ -49,7 +49,8 @@ int main(int argc, char *argv[])
     if (left.channels()>1)
     {
         cvtColor(left, left_gray, CV_BGR2GRAY);
-        cvtColor(right, right_gray, CV_BGR2GRAY);        
+        cvtColor(right, right_gray, CV_BGR2GRAY);
+        cvtColor(disp_gt, disp_gt, CV_BGR2GRAY);     
     }
     else 
     {
@@ -63,10 +64,13 @@ int main(int argc, char *argv[])
     Elas::parameters param;
     // param.postprocess_only_left = false;
     Elas elas(param);
-    elas.process(image_left, image_right, disparity1, disparity2);
+    elas.process(image_left, image_right, disparity1, disparity2, disp_gt);
+    int chnls = disp_gt.channels();
+    cout << "the number of disparity ground truth is: " << chnls <<endl;
+    cout << "the value of a specific point is: " << disp_gt.at<short>(10,10) << endl;
     imwrite("disparity.pgm", disparity1);
-
-    imshow("support points", image_left);
+    imwrite("ls_triangulation.jpg", image_left);
+    imshow("disparity", image_left);
     waitKey(0);
     // test the function of descriptor
     //test_descriptor(left_gray, right_gray, width_, height_);

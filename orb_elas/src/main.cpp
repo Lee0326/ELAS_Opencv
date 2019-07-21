@@ -32,10 +32,10 @@ using std::vector;
 
 int main(int argc, char *argv[])
 {
-    string data_dir = "/home/colin/catkin_modelas_ws/src/ls_elas/img/";
+    string data_dir = "../img/";
     //string left_image = argv[1];
-    string left_image = "im2.png"; 
-    string right_image = "im6.png";
+    string left_image = "baby1.png"; 
+    string right_image = "baby5.png";
     // string right_image = argv[2];
     Mat left = imread(data_dir + left_image);
     Mat right = imread(data_dir +  right_image);
@@ -67,5 +67,8 @@ int main(int argc, char *argv[])
     imwrite("disparity.pgm", disparity1);
     // test the function of descriptor
     //test_descriptor(left_gray, right_gray, width_, height_);
+    imwrite("orb_triangulation.jpg", image_left);
+    //imshow("support points", image_left);
+    //waitKey(0);
     return 0;
 }

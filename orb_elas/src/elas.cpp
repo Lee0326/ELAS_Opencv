@@ -15,7 +15,7 @@ using namespace std;
 using namespace cv;
 using namespace cv::xfeatures2d;
 
-bool Elas::process(const Mat &image_left, const Mat &image_right, Mat &disparity_left, Mat &disparity_right)
+bool Elas::process( Mat &image_left, const Mat &image_right, Mat &disparity_left, Mat &disparity_right)
 {
   int32_t width = image_left.cols, height = image_left.rows;
   vector<Point3i> support_points;
@@ -35,13 +35,20 @@ bool Elas::process(const Mat &image_left, const Mat &image_right, Mat &disparity
 
   compute_support_matches.wait();
   compute_descriptor.wait();
-
+  for (auto point:support_points)
+  {
+    Point sp;
+    sp.x = point.x;
+    sp.y = point.y;
+    circle(image_left, sp, 2.5, Scalar(0,0,255), -1);
+  }
+  cout << "there are " << support_points.size() << " support points in total." << endl;
   future<void> compute_disparity_left = async(launch::async, [&] {
-    ComputeDisparity(support_points, descriptor_left, descriptor_right, false, disparity_left);
+    ComputeDisparity(image_left, support_points, descriptor_left, descriptor_right, false, disparity_left);
   });
 
   future<void> compute_disparity_right = async(launch::async, [&] {
-    ComputeDisparity(support_points, descriptor_left, descriptor_right, true, disparity_right);
+    ComputeDisparity(image_left, support_points, descriptor_left, descriptor_right, true, disparity_right);
   });
 
   compute_disparity_left.wait();
@@ -60,7 +67,7 @@ bool Elas::process(const Mat &image_left, const Mat &image_right, Mat &disparity
   return true;
 }
 
-void Elas::ComputeDisparity(vector<Point3i> support_points, const Mat &descriptor_left, const Mat &descriptor_right,
+void Elas::ComputeDisparity(Mat &image_left, vector<Point3i> support_points, const Mat &descriptor_left, const Mat &descriptor_right,
                             const bool &is_right_image, Mat &disparity)
 {
   vector<Vec6f> triangulate_points, plane_param;
@@ -73,6 +80,24 @@ void Elas::ComputeDisparity(vector<Point3i> support_points, const Mat &descripto
   Mat disparity_grid_right(grid_height * grid_width, param_.disp_max + 2, CV_16S, Scalar(0));
 
   triangulate_points = ComputeDelaunayTriangulation(support_points, is_right_image, disparity.cols, disparity.rows);
+
+  //draw the triangulation results
+  if (!is_right_image)
+  {
+    int point_num_in_tri = 3;
+    for (int i=0; i<triangulate_points.size(); i++)
+    {
+      Point supportPoints[3];
+      for (int k=0; k<3; k++)
+      {
+        int32_t u = (int32_t)triangulate_points[i][2*k];
+        int32_t v = (int32_t)triangulate_points[i][2*k+1];
+        supportPoints[k] = Point(u,v);
+      }
+      const cv::Point* ppt = supportPoints;
+      polylines(image_left, &ppt, &point_num_in_tri, 1, true , cv::Scalar(100,100,100));
+    }
+  }
 
   plane_param = ComputeDisparityPlanes(support_points, triangulate_points, triangulate_points_d, is_right_image);
 

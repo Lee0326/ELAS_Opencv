@@ -188,7 +188,11 @@ public:
   inline uint32_t getAddressOffsetGrid (const int32_t& x,const int32_t& y,const int32_t& d,const int32_t& width,const int32_t& disp_num) {
     return (y*width+x)*disp_num+d;
   }
-
+  void ExtractEdgeSegment(const Mat &image_left, Mat &edgeMap, Mat &dirMap, 
+vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height);
+  void ExtractLineSeg(const Point &seed, vector<Point> &lineSeg, const float &direction, 
+bool reverse, Mat &edgeMap, const Mat &dirMap, const int32_t &width, const int32_t &height);
+  int findAdj(Point &adj, float dir, Mat &edgeMap, const int32_t &width, const int32_t &height);  
   // support point functions
   void SaveSupportPoints (std::vector<support_pt> &p_support);
   void removeInconsistentSupportPoints (int16_t* D_can,int32_t D_can_width,int32_t D_can_height);
@@ -196,7 +200,7 @@ public:
                                      int32_t redun_max_dist, int32_t redun_threshold, bool vertical);
   void addCornerSupportPoints (std::vector<support_pt> &p_support);
   inline int16_t computeMatchingDisparity (const int32_t &u,const int32_t &v,uint8_t* I1_desc,uint8_t* I2_desc,const bool &right_image);
-  std::vector<support_pt> computeSupportMatches (uint8_t* I1_desc,uint8_t* I2_desc);
+  std::vector<support_pt> computeSupportMatches (uint8_t* I1_desc,uint8_t* I2_desc,vector<vector<Point>> &lineSegments);
 
   // triangulation & grid
   std::vector<triangle> computeDelaunayTriangulation (std::vector<support_pt> p_support,int32_t right_image);

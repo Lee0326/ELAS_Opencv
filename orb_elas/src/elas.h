@@ -45,7 +45,7 @@ public:
     {
     }
 
-    bool process(const Mat &image_left, const Mat &image_right, Mat &disparity_left, Mat &disparity_right);
+    bool process( Mat &image_left, const Mat &image_right, Mat &disparity_left, Mat &disparity_right);
 
     void ComputeSupportMatches(const Mat &image_left, const Mat &image_right, vector<Point3i> &support_points);
 
@@ -76,7 +76,7 @@ private:
 
     void LeftRightConsistencyCheck(Mat &disparity_left, Mat &disparity_right, const int& lr_threshold);
 
-    void ComputeDisparity(vector<Point3i> support_points, const Mat &descriptor_left, const Mat &descriptor_right, const bool &is_right_image, Mat &disparity);
+    void ComputeDisparity(Mat &image_left, vector<Point3i> support_points, const Mat &descriptor_left, const Mat &descriptor_right, const bool &is_right_image, Mat &disparity);
 
     // parameter set
     parameters param_;
