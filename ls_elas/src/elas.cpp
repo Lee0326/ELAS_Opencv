@@ -256,6 +256,8 @@ void Elas::LeftRightConsistencyCheck(Mat &disparity_left, Mat &disparity_right, 
 //   }
 // }
 
+/* 
+// using ELAS Matching algorithm 
 void Elas::ComputeSupportMatches(Mat &disp_gt, const Mat &descriptor_left, const Mat &descriptor_right, vector<Point3i> &support_points, 
 vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height)
 {
@@ -272,6 +274,8 @@ vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height
       // cout << "the index of the line: " << i << endl; 
       int u = line[i].x; 
       int v = line[i].y;
+      newKeyPoint.pt = Point2f(line[i].x, line[i].y);
+      newKeyPoint.size = 2*apertureSize;
       d = ComputeMatchingDisparity(descriptor_left, descriptor_right, u, v, false, width, height);
       if (d>0)
       {
@@ -290,7 +294,47 @@ vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height
     }
   }
 }
+*/
 
+// Using ORB descriptor for support matching
+void Elas::ComputeSupportMatches(Mat &disp_gt, const Mat &descriptor_left, const Mat &descriptor_right, vector<Point3i> &support_points, 
+vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height)
+{
+  int candidate_stepsize = param_.candidate_stepsize;
+
+  assert(candidate_stepsize>0);
+
+  int d, d2;
+  int ind = 0; 
+  for (auto line:lineSegments)
+  { 
+    for (int i = candidate_stepsize; i < line.size(); i += candidate_stepsize)
+    {
+      // cout << "the index of the line: " << i << endl; 
+      int apertureSize = 3;
+      KeyPoint newKeyPoint;
+      int u = line[i].x; 
+      int v = line[i].y;
+      newKeyPoint.pt = Point2f(line[i].x, line[i].y);
+      newKeyPoint.size = 2*apertureSize;
+      d = ComputeMatchingDisparity(descriptor_left, descriptor_right, u, v, false, width, height);
+      if (d>0)
+      {
+        //find backwards
+        d2 = ComputeMatchingDisparity(descriptor_left, descriptor_right, u - d, v, true, width, height);
+        // cout << "the x coordinate is: "<< u << " and the y coordinate is: " << v << endl;
+        // cout << "the disparity is "<< d2 << endl;
+        if (d2 >= 0 && abs(d-d2) <= param_.lr_threshold)
+        {
+          // cout << "the disparity is valid!" << endl;
+          int d_gt = (int)disp_gt.at<uchar>(v, u);
+          cout << "the disparity of the ground truth is "<< d_gt/3 << " and the calculated disparity is:" << d << endl;
+          support_points.push_back(Point3i(u,v,d_gt));
+        }
+      }
+    }
+  }
+}
 // void Elas::ComputeSupportMatches(const Mat &descriptor_left, const Mat &descriptor_right, vector<Point3i> &support_points, 
 // vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height)
 // {
