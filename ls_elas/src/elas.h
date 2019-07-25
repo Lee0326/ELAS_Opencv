@@ -52,8 +52,13 @@ public:
 
     //void ComputeSupportMatches(const Mat &image_left, const Mat &image_right, vector<Point3i> &support_points);
 
-    void ComputeSupportMatches(Mat &disp_gt, const Mat &descriptor_left, const Mat &descriptor_right, vector<Point3i> &support_points, 
-    vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height);
+    // original le-elas matching algorithm 
+    // void ComputeSupportMatches(Mat &disp_gt, const Mat &descriptor_left, const Mat &descriptor_right, vector<Point3i> &support_points, 
+    // vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height);
+
+    // use orb to match support points
+    void ComputeSupportMatches(const Mat &image_left, const Mat &image_right, Mat &disp_gt, const vector<vector<Point>> &lineSegments_left, const vector<vector<Point>> &lineSegments_right, 
+    vector<Point3i> &support_points);
 
 
 
