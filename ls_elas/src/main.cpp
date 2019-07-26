@@ -64,13 +64,13 @@ int main(int argc, char *argv[])
     Elas::parameters param;
     // param.postprocess_only_left = false;
     Elas elas(param);
-    elas.process(image_left, image_right, disparity1, disparity2, disp_gt);
+    elas.process(left, image_left, image_right, disparity1, disparity2, disp_gt);
     int chnls = disp_gt.channels();
-    cout << "the number of disparity ground truth is: " << chnls <<endl;
-    cout << "the value of a specific point is: " << disp_gt.at<short>(10,10) << endl;
     imwrite("disparity.pgm", disparity1);
     imwrite("ls_triangulation.jpg", image_left);
+    
     imshow("disparity", image_left);
+    imshow("line_segments", left);
     waitKey(0);
     // test the function of descriptor
     //test_descriptor(left_gray, right_gray, width_, height_);

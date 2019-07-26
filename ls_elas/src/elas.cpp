@@ -15,17 +15,25 @@ using namespace std;
 using namespace cv;
 using namespace cv::xfeatures2d;
 
-bool Elas::process(Mat &image_left, const Mat &image_right, Mat &disparity_left, Mat &disparity_right, Mat &disp_gt)
+bool Elas::process(Mat &left, Mat &image_left, const Mat &image_right, Mat &disparity_left, Mat &disparity_right, Mat &disp_gt)
 {
   int32_t width = image_left.cols, height = image_left.rows;
   vector<Point3i> support_points;
-  vector<vector<Point>> lineSegments;
+  vector<vector<Point>> lineSegments_left;
+  vector<vector<Point>> lineSegments_right;
   Mat descriptor_left, descriptor_right;
-  Mat edgeMap, dirMap;
+  Mat edgeMap_left, dirMap_left, edgeMap_right, dirMap_right;
 
   
-  ExtractEdgeSegment(image_left, edgeMap, dirMap, lineSegments, width, height);
-  cout << "there are " << lineSegments.size() << " line segments in total." << endl;
+  ExtractEdgeSegment(image_left, edgeMap_left, dirMap_left, lineSegments_left, width, height);
+  ExtractEdgeSegment(image_right, edgeMap_right, dirMap_right, lineSegments_right, width, height);
+  // Draw and save the edge map
+  // imshow("left edgeMap", edgeMap_left);
+  // imwrite("left_edgeMap.jpg", edgeMap_left);
+  // imshow("right_edgeMap", edgeMap_right);
+  // imwrite("right_edgeMap.jpg", edgeMap_right);
+
+  cout << "there are " << lineSegments_left.size() << " line segments in total." << endl;
   // future<void> compute_descriptor = async(launch::async, [&] {
   //   Descriptor descriptor_L(image_left, width, height);
   //   descriptor_left = descriptor_L.CreateDescriptor();
@@ -38,14 +46,20 @@ bool Elas::process(Mat &image_left, const Mat &image_right, Mat &disparity_left,
   //   // ComputeSupportMatches(image_left, image_right, support_points);
   //   ComputeSupportMatches(descriptor_left, descriptor_right, support_points, lineSegments, width, height);
   // });
+
+  // Original LE-ELAS Matching algorithm
   Descriptor descriptor_L(image_left, width, height);
   descriptor_left = descriptor_L.CreateDescriptor();
 
   Descriptor descriptor_R(image_right, width, height);
   descriptor_right = descriptor_R.CreateDescriptor();
 
-  ComputeSupportMatches(disp_gt, descriptor_left, descriptor_right, support_points, lineSegments, width, height);
-  cout << "there are " << support_points.size() << " support points in total." << endl;
+  // ComputeSupportMatches(disp_gt, descriptor_left, descriptor_right, support_points, lineSegments_left, width, height);
+   
+
+  ComputeSupportMatches(image_left, image_right, disp_gt, lineSegments_left, lineSegments_right, support_points);
+  cout << "there are " << support_points.size() << " support points in total." << endl; 
+
   // compute_descriptor.wait();
   // compute_support_matches.wait();
   for (auto point:support_points)
@@ -54,6 +68,19 @@ bool Elas::process(Mat &image_left, const Mat &image_right, Mat &disparity_left,
     sp.x = point.x;
     sp.y = point.y;
     circle(image_left, sp, 2.5, Scalar(0,0,255), -1);
+  }
+
+  for (auto line:lineSegments_left)
+  {
+    int rd1 = rand()%255;
+    int rd2 = rand()%255;
+    int rd3 = rand()%255;
+    for (auto point:line)
+    {
+      left.at<Vec3b>(point.y,point.x)[0] = rd3;
+      left.at<Vec3b>(point.y,point.x)[1] = rd2;
+      left.at<Vec3b>(point.y,point.x)[2] = rd1;
+    }
   }
     
   future<void> compute_disparity_left = async(launch::async, [&] {
@@ -80,24 +107,25 @@ bool Elas::process(Mat &image_left, const Mat &image_right, Mat &disparity_left,
   return true;
 }
 
-void Elas::ExtractEdgeSegment(const Mat &image_left, Mat &edgeMap, Mat &dirMap, 
+void Elas::ExtractEdgeSegment(const Mat &image, Mat &edgeMap, Mat &dirMap, 
 vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height)
 {
-  Mat src, grad_x, grad_y, magtitude;
+  Mat src, grad_x, grad_y, magtitude, edge_temp;
   vector<Point> seedlist;
   bool useDegree = true; 
   int scale = 1;
   int delta = 0;
   int ddepth = CV_32F;
-  src = image_left.clone();
+  src = image.clone();
 
-  GaussianBlur(src, edgeMap, Size(3,3), 0, 0, BORDER_DEFAULT);
+  GaussianBlur(src, edgeMap, Size(5,5), 0, 0, BORDER_DEFAULT);
   //cvtColor(src, edgeMap, CV_BGR2GRAY);
   Sobel( edgeMap, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT );
   Sobel( edgeMap, grad_y, ddepth, 0, 1, 3, scale, delta, BORDER_DEFAULT );
   cartToPolar(grad_x, grad_y, magtitude, dirMap, useDegree);
-  Canny( edgeMap, edgeMap, 3, 20, 3);
-  findNonZero(edgeMap, seedlist);
+  Canny( edgeMap, edgeMap, 20, 100, 5);
+  edge_temp = edgeMap.clone();
+  findNonZero(edge_temp, seedlist);
   cout << "Edge points in total: " << seedlist.size() << endl;
   for (int i = 0; i<seedlist.size(); i++)
   {
@@ -105,8 +133,8 @@ vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height
     float direction = dirMap.at<float>(seed.y, seed.x);
     float rev_direction = (direction<=180) ? direction+180 : direction-180;
     vector<Point> lineSeg;
-    ExtractLineSeg(seed, lineSeg, direction, false, edgeMap, dirMap, width, height);
-    //extractLineSeg(seed, lineSeg, rev_direction, true, edgeMap);
+    ExtractLineSeg(seed, lineSeg, direction, false, edge_temp, dirMap, width, height);
+    ExtractLineSeg(seed, lineSeg, direction, true, edge_temp, dirMap, width, height);
     if (lineSeg.size()>20)
       lineSegments.push_back(lineSeg);
   } 
@@ -229,6 +257,7 @@ void Elas::LeftRightConsistencyCheck(Mat &disparity_left, Mat &disparity_right, 
   }
 }
 
+// using ORB Matching algorithm
 // void Elas::ComputeSupportMatches(const Mat &image_left, const Mat &image_right, vector<Point3i> &support_points )
 // {
 //   ORBextractor orbExtractor(20000, 1.2, 8, 20, 20);
@@ -256,8 +285,10 @@ void Elas::LeftRightConsistencyCheck(Mat &disparity_left, Mat &disparity_right, 
 //   }
 // }
 
+
+// using ELAS Matching algorithm 
 void Elas::ComputeSupportMatches(Mat &disp_gt, const Mat &descriptor_left, const Mat &descriptor_right, vector<Point3i> &support_points, 
-vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height)
+vector<vector<Point>> &lineSegments_left, const int32_t &width, const int32_t &height)
 {
   int candidate_stepsize = param_.candidate_stepsize;
 
@@ -265,7 +296,7 @@ vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height
 
   int d, d2;
   int ind = 0; 
-  for (auto line:lineSegments)
+  for (auto line:lineSegments_left)
   { 
     for (int i = candidate_stepsize; i < line.size(); i += candidate_stepsize)
     {
@@ -283,48 +314,87 @@ vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height
         {
           // cout << "the disparity is valid!" << endl;
           int d_gt = (int)disp_gt.at<uchar>(v, u);
-          cout << "the disparity of the ground truth is "<< d_gt/3 << " and the calculated disparity is:" << d << endl;
-          support_points.push_back(Point3i(u,v,d));
+          // cout << "the disparity of the ground truth is "<< d_gt/3 << " and the calculated disparity is:" << d << endl;
+          support_points.push_back(Point3i(u,v,d_gt));
         }
       }
     }
   }
 }
 
-// void Elas::ComputeSupportMatches(Mat &disp_gt, const Mat &descriptor_left, const Mat &descriptor_right, vector<Point3i> &support_points, 
-// vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height)
-// {
-//     int candidate_stepsize = param_.candidate_stepsize;
 
-//     assert(candidate_stepsize > 0);
+// Using ORB descriptor for LS-ELAS support matching
+void Elas::ComputeSupportMatches(const Mat &image_left, const Mat &image_right, Mat &disp_gt, const vector<vector<Point>> &lineSegments_left, 
+const vector<vector<Point>> &lineSegments_right, vector<Point3i> &support_points)
+{
+  Ptr<DescriptorExtractor> extractor;
 
-//     Mat D_can(ceil(height / candidate_stepsize), ceil(width / candidate_stepsize), CV_16S, -1);
-//     // Mat D_can(height_ / candidate_stepsize, width_ / candidate_stepsize, CV_16S, -1);
+  extractor = ORB::create();
+  
+  Mat d_descriptorsL, d_descriptorsR;
 
-//     int d, d2;
+  vector<KeyPoint> keyPoints_1, keyPoints_2;
 
-//     for (int v = candidate_stepsize; v < height; v += candidate_stepsize)
-//     {
-//         for (int u = candidate_stepsize; u < width; u += candidate_stepsize)
-//         {
-//             d = ComputeMatchingDisparity(descriptor_left, descriptor_right, u, v, false, width, height);
-//             int d_gt = (int)disp_gt.at<uchar>(v, u);
-//             // support_points.push_back(Point3i(u, v, d_gt));
-//             if (d >= 0)
-//             {
-//                 // find backwards
-//                 d2 = ComputeMatchingDisparity(descriptor_left, descriptor_right, u - d, v, true, width, height);
-//                 if (d2 >= 0 && abs(d - d2) <= param_.lr_threshold)
-//                 {
-//                     D_can.at<short>(v / candidate_stepsize, u / candidate_stepsize) = d;
-//                     // if (v < 20)
-//                     //     cout << u << " " << v << " " << u - d << endl;
-//                      support_points.push_back(Point3i(u, v, d));
-//                 }
-//             }
-//         }
-//     }
-// }
+  int candidate_stepsize = param_.candidate_stepsize;
+
+  assert(candidate_stepsize>0);
+
+  int apertureSize = 3;
+
+// Select keypoints from line segments results in left image
+  for (auto line:lineSegments_left)
+  { 
+    for (int i = candidate_stepsize; i < line.size(); i += candidate_stepsize)
+    {
+      // cout << "the index of the line: " << i << endl; 
+      int u = line[i].x; 
+      int v = line[i].y;
+      KeyPoint newKeyPoint;
+      newKeyPoint.pt = Point2f(line[i].x, line[i].y);
+      newKeyPoint.size = 2*apertureSize;
+      keyPoints_1.push_back(newKeyPoint);
+    }
+  }
+// Select keypoints from line segments results in right image
+  for (auto line:lineSegments_right)
+  { 
+    for (int i = candidate_stepsize; i < line.size(); i += candidate_stepsize)
+    {
+      // cout << "the index of the line: " << i << endl; 
+      int u = line[i].x; 
+      int v = line[i].y;
+      KeyPoint newKeyPoint;
+      newKeyPoint.pt = Point2f(line[i].x, line[i].y);
+      newKeyPoint.size = 2*apertureSize;
+      keyPoints_2.push_back(newKeyPoint);
+    }
+  }
+
+  extractor->compute(image_left, keyPoints_1, d_descriptorsL);
+  extractor->compute(image_right, keyPoints_2, d_descriptorsR);
+
+  bool crossCheck = false;
+  Ptr<DescriptorMatcher> matcher;
+  vector<DMatch> matches;
+  int normType = cv::NORM_HAMMING;
+  matcher = BFMatcher::create(normType, crossCheck);
+  matcher->match(d_descriptorsL, d_descriptorsR, matches);
+
+  cout << "the size of the keypoints in left is: " << keyPoints_1.size() << endl;
+  cout << "the size of the descriptor in left is: " << d_descriptorsL.size() << endl;
+
+  for (int i = 0; i < keyPoints_1.size(); i++)
+  {
+    if (abs(keyPoints_1[i].pt.y - keyPoints_2[matches[i].trainIdx].pt.y) < 2 && (int)keyPoints_1[i].pt.y % param_.step_size == 0)
+    {
+      support_points.push_back(Point3i(keyPoints_1[i].pt.x, keyPoints_1[i].pt.y,
+                                        keyPoints_1[i].pt.x - keyPoints_2[matches[i].trainIdx].pt.x));
+    }
+  }
+
+}
+
+
 
 int Elas::ComputeMatchingDisparity(const Mat &descriptor_left, const Mat &descriptor_right, const int &u, const int &v, 
 const bool &right_image, const int32_t &width, const int32_t &height)
