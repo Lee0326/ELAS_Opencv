@@ -1,24 +1,24 @@
 Determining if the pthread_create exist failed with the following output:
-Change Dir: /home/lee/ELAS_Opencv/orb_elas/build/CMakeFiles/CMakeTmp
+Change Dir: /home/colin/catkin_modelas_ws/src/orb_elas/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_a468b/fast"
-/usr/bin/make -f CMakeFiles/cmTC_a468b.dir/build.make CMakeFiles/cmTC_a468b.dir/build
-make[1]: Entering directory '/home/lee/ELAS_Opencv/orb_elas/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_a468b.dir/CheckSymbolExists.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_a468b.dir/CheckSymbolExists.c.o   -c /home/lee/ELAS_Opencv/orb_elas/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
-Linking C executable cmTC_a468b
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_a468b.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_a468b.dir/CheckSymbolExists.c.o  -o cmTC_a468b -rdynamic 
-CMakeFiles/cmTC_a468b.dir/CheckSymbolExists.c.o: In function `main':
+Run Build Command:"/usr/bin/make" "cmTC_92001/fast"
+/usr/bin/make -f CMakeFiles/cmTC_92001.dir/build.make CMakeFiles/cmTC_92001.dir/build
+make[1]: Entering directory '/home/colin/catkin_modelas_ws/src/orb_elas/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_92001.dir/CheckSymbolExists.c.o
+/usr/bin/cc    -o CMakeFiles/cmTC_92001.dir/CheckSymbolExists.c.o   -c /home/colin/catkin_modelas_ws/src/orb_elas/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_92001
+/opt/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_92001.dir/link.txt --verbose=1
+/usr/bin/cc      -rdynamic CMakeFiles/cmTC_92001.dir/CheckSymbolExists.c.o  -o cmTC_92001 
+CMakeFiles/cmTC_92001.dir/CheckSymbolExists.c.o: In function `main':
 CheckSymbolExists.c:(.text+0x16): undefined reference to `pthread_create'
 collect2: error: ld returned 1 exit status
-CMakeFiles/cmTC_a468b.dir/build.make:97: recipe for target 'cmTC_a468b' failed
-make[1]: *** [cmTC_a468b] Error 1
-make[1]: Leaving directory '/home/lee/ELAS_Opencv/orb_elas/build/CMakeFiles/CMakeTmp'
-Makefile:126: recipe for target 'cmTC_a468b/fast' failed
-make: *** [cmTC_a468b/fast] Error 2
+CMakeFiles/cmTC_92001.dir/build.make:86: recipe for target 'cmTC_92001' failed
+make[1]: *** [cmTC_92001] Error 1
+make[1]: Leaving directory '/home/colin/catkin_modelas_ws/src/orb_elas/build/CMakeFiles/CMakeTmp'
+Makefile:121: recipe for target 'cmTC_92001/fast' failed
+make: *** [cmTC_92001/fast] Error 2
 
-File /home/lee/ELAS_Opencv/orb_elas/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+File /home/colin/catkin_modelas_ws/src/orb_elas/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
 /* */
 #include <pthread.h>
 
@@ -34,22 +34,22 @@ int main(int argc, char** argv)
 }
 
 Determining if the function pthread_create exists in the pthreads failed with the following output:
-Change Dir: /home/lee/ELAS_Opencv/orb_elas/build/CMakeFiles/CMakeTmp
+Change Dir: /home/colin/catkin_modelas_ws/src/orb_elas/build/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_eaa21/fast"
-/usr/bin/make -f CMakeFiles/cmTC_eaa21.dir/build.make CMakeFiles/cmTC_eaa21.dir/build
-make[1]: Entering directory '/home/lee/ELAS_Opencv/orb_elas/build/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_eaa21.dir/CheckFunctionExists.c.o
-/usr/bin/cc    -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_eaa21.dir/CheckFunctionExists.c.o   -c /usr/share/cmake-3.5/Modules/CheckFunctionExists.c
-Linking C executable cmTC_eaa21
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_eaa21.dir/link.txt --verbose=1
-/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create    CMakeFiles/cmTC_eaa21.dir/CheckFunctionExists.c.o  -o cmTC_eaa21 -rdynamic -lpthreads 
+Run Build Command:"/usr/bin/make" "cmTC_aae5b/fast"
+/usr/bin/make -f CMakeFiles/cmTC_aae5b.dir/build.make CMakeFiles/cmTC_aae5b.dir/build
+make[1]: Entering directory '/home/colin/catkin_modelas_ws/src/orb_elas/build/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_aae5b.dir/CheckFunctionExists.c.o
+/usr/bin/cc   -DCHECK_FUNCTION_EXISTS=pthread_create   -o CMakeFiles/cmTC_aae5b.dir/CheckFunctionExists.c.o   -c /home/colin/cmake/Modules/CheckFunctionExists.c
+Linking C executable cmTC_aae5b
+/opt/cmake/bin/cmake -E cmake_link_script CMakeFiles/cmTC_aae5b.dir/link.txt --verbose=1
+/usr/bin/cc  -DCHECK_FUNCTION_EXISTS=pthread_create    -rdynamic CMakeFiles/cmTC_aae5b.dir/CheckFunctionExists.c.o  -o cmTC_aae5b -lpthreads 
 /usr/bin/ld: cannot find -lpthreads
 collect2: error: ld returned 1 exit status
-CMakeFiles/cmTC_eaa21.dir/build.make:97: recipe for target 'cmTC_eaa21' failed
-make[1]: *** [cmTC_eaa21] Error 1
-make[1]: Leaving directory '/home/lee/ELAS_Opencv/orb_elas/build/CMakeFiles/CMakeTmp'
-Makefile:126: recipe for target 'cmTC_eaa21/fast' failed
-make: *** [cmTC_eaa21/fast] Error 2
+CMakeFiles/cmTC_aae5b.dir/build.make:86: recipe for target 'cmTC_aae5b' failed
+make[1]: *** [cmTC_aae5b] Error 1
+make[1]: Leaving directory '/home/colin/catkin_modelas_ws/src/orb_elas/build/CMakeFiles/CMakeTmp'
+Makefile:121: recipe for target 'cmTC_aae5b/fast' failed
+make: *** [cmTC_aae5b/fast] Error 2
 
 

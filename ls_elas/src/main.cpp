@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     string data_dir = "../img/";
     string left_image = "aloe_left.pgm"; 
     string right_image = "aloe_right.pgm";
-    string ground_truth = "aloe_left_disp.pgm";
+    string ground_truth = "aloe_disp1.png";
     Mat left = imread(data_dir + left_image);
     Mat right = imread(data_dir +  right_image);
     Mat disp_gt = imread(data_dir + ground_truth);

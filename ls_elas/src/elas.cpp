@@ -284,14 +284,14 @@ vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height
           // cout << "the disparity is valid!" << endl;
           int d_gt = (int)disp_gt.at<uchar>(v, u);
           cout << "the disparity of the ground truth is "<< d_gt/3 << " and the calculated disparity is:" << d << endl;
-          support_points.push_back(Point3i(u,v,d_gt));
+          support_points.push_back(Point3i(u,v,d));
         }
       }
     }
   }
 }
 
-// void Elas::ComputeSupportMatches(const Mat &descriptor_left, const Mat &descriptor_right, vector<Point3i> &support_points, 
+// void Elas::ComputeSupportMatches(Mat &disp_gt, const Mat &descriptor_left, const Mat &descriptor_right, vector<Point3i> &support_points, 
 // vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height)
 // {
 //     int candidate_stepsize = param_.candidate_stepsize;
@@ -308,7 +308,8 @@ vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height
 //         for (int u = candidate_stepsize; u < width; u += candidate_stepsize)
 //         {
 //             d = ComputeMatchingDisparity(descriptor_left, descriptor_right, u, v, false, width, height);
-
+//             int d_gt = (int)disp_gt.at<uchar>(v, u);
+//             // support_points.push_back(Point3i(u, v, d_gt));
 //             if (d >= 0)
 //             {
 //                 // find backwards
@@ -318,7 +319,7 @@ vector<vector<Point>> &lineSegments, const int32_t &width, const int32_t &height
 //                     D_can.at<short>(v / candidate_stepsize, u / candidate_stepsize) = d;
 //                     // if (v < 20)
 //                     //     cout << u << " " << v << " " << u - d << endl;
-//                     support_points.push_back(Point3i(u, v, d));
+//                      support_points.push_back(Point3i(u, v, d));
 //                 }
 //             }
 //         }

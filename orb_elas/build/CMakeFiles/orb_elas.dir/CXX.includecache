@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,23 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/lee/ELAS_Opencv/orb_elas/src/descriptor.cpp
-opencv2/opencv.hpp
--
-opencv2/xfeatures2d.hpp
--
-opencv2/imgproc.hpp
--
-opencv2/highgui/highgui.hpp
--
-descriptor.h
-/home/lee/ELAS_Opencv/orb_elas/src/descriptor.h
-future
--
-boost/progress.hpp
-/home/lee/ELAS_Opencv/orb_elas/src/boost/progress.hpp
-
-/home/lee/ELAS_Opencv/orb_elas/src/descriptor.h
+/home/colin/catkin_modelas_ws/src/orb_elas/src/descriptor.h
 stdio.h
 -
 string.h
@@ -38,29 +22,7 @@ opencv2/opencv.hpp
 iostream
 -
 
-/home/lee/ELAS_Opencv/orb_elas/src/elas.cpp
-opencv2/xfeatures2d.hpp
--
-opencv2/highgui/highgui.hpp
--
-math.h
--
-algorithm
--
-cassert
--
-vector
--
-future
--
-elas.h
-/home/lee/ELAS_Opencv/orb_elas/src/elas.h
-descriptor.h
-/home/lee/ELAS_Opencv/orb_elas/src/descriptor.h
-boost/progress.hpp
-/home/lee/ELAS_Opencv/orb_elas/src/boost/progress.hpp
-
-/home/lee/ELAS_Opencv/orb_elas/src/elas.h
+/home/colin/catkin_modelas_ws/src/orb_elas/src/elas.h
 stdio.h
 -
 string.h
@@ -78,9 +40,9 @@ iostream
 vector
 -
 orb_extractor.h
-/home/lee/ELAS_Opencv/orb_elas/src/orb_extractor.h
+/home/colin/catkin_modelas_ws/src/orb_elas/src/orb_extractor.h
 
-/home/lee/ELAS_Opencv/orb_elas/src/main.cpp
+/home/colin/catkin_modelas_ws/src/orb_elas/src/main.cpp
 unistd.h
 -
 sys/time.h
@@ -102,29 +64,15 @@ algorithm
 math.h
 -
 descriptor.h
-/home/lee/ELAS_Opencv/orb_elas/src/descriptor.h
+/home/colin/catkin_modelas_ws/src/orb_elas/src/descriptor.h
 elas.h
-/home/lee/ELAS_Opencv/orb_elas/src/elas.h
+/home/colin/catkin_modelas_ws/src/orb_elas/src/elas.h
 boost/progress.hpp
-/home/lee/ELAS_Opencv/orb_elas/src/boost/progress.hpp
+/home/colin/catkin_modelas_ws/src/orb_elas/src/boost/progress.hpp
 iostream
 -
 
-/home/lee/ELAS_Opencv/orb_elas/src/orb_extractor.cpp
-opencv2/core/core.hpp
--
-opencv2/highgui/highgui.hpp
--
-opencv2/features2d/features2d.hpp
--
-opencv2/imgproc/imgproc.hpp
--
-vector
--
-orb_extractor.h
-/home/lee/ELAS_Opencv/orb_elas/src/orb_extractor.h
-
-/home/lee/ELAS_Opencv/orb_elas/src/orb_extractor.h
+/home/colin/catkin_modelas_ws/src/orb_elas/src/orb_extractor.h
 vector
 -
 list
@@ -237,10 +185,6 @@ opencv2/core/vsx_utils.hpp
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/core/opencv2/core/vsx_utils.hpp
 
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/core/bufferpool.hpp
-
-/opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/core/core.hpp
-opencv2/core.hpp
-/opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/core/opencv2/core.hpp
 
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/core/core_c.h
 opencv2/core/types_c.h
@@ -507,10 +451,6 @@ opencv2/core.hpp
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/opencv2/core.hpp
 opencv2/flann/miniflann.hpp
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/opencv2/flann/miniflann.hpp
-
-/opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/features2d/features2d.hpp
-opencv2/features2d.hpp
-/opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/features2d/opencv2/features2d.hpp
 
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/flann.hpp
 opencv2/core.hpp
@@ -948,10 +888,6 @@ opencv2/videoio.hpp
 opencv2/highgui/highgui_c.h
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/opencv2/highgui/highgui_c.h
 
-/opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/highgui/highgui.hpp
-opencv2/highgui.hpp
-/opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/highgui/opencv2/highgui.hpp
-
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/highgui/highgui_c.h
 opencv2/core/core_c.h
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/highgui/opencv2/core/core_c.h
@@ -1005,10 +941,6 @@ opencv2/highgui.hpp
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/opencv2/highgui.hpp
 opencv2/imgproc/imgproc_c.h
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/opencv2/imgproc/imgproc_c.h
-
-/opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/imgproc/imgproc.hpp
-opencv2/imgproc.hpp
-/opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/imgproc/opencv2/imgproc.hpp
 
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv2/imgproc/imgproc_c.h
 opencv2/imgproc/types_c.h

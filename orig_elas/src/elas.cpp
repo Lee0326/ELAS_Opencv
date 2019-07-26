@@ -43,9 +43,6 @@ void Elas:: process(const Mat &image_left, const Mat &image_right, float *D1, fl
   vector<vector<Point>> lineSegments;
   Mat descriptor_left, descriptor_right;
   Mat edgeMap, dirMap;
-
-  ExtractEdgeSegment(image_left, edgeMap, dirMap, lineSegments, width, height);
-  cout << "there are " << lineSegments.size() << " line segments in total." << endl;
   
   // copy images to byte aligned memory
   I1 = (uint8_t*)_mm_malloc(bpl*height*sizeof(uint8_t),16);

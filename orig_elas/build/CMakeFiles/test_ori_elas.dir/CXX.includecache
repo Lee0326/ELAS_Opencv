@@ -1,4 +1,4 @@
-#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
 
 #IncludeRegexScan: ^.*$
 
@@ -6,15 +6,15 @@
 
 #IncludeRegexTransform: 
 
-/home/lee/ELAS_Opencv/orig_elas/src/descriptor.cpp
+/home/colin/catkin_modelas_ws/src/orig_elas/src/descriptor.cpp
 descriptor.h
-/home/lee/ELAS_Opencv/orig_elas/src/descriptor.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/descriptor.h
 filter.h
-/home/lee/ELAS_Opencv/orig_elas/src/filter.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/filter.h
 emmintrin.h
 -
 
-/home/lee/ELAS_Opencv/orig_elas/src/descriptor.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/descriptor.h
 iostream
 -
 stdio.h
@@ -28,25 +28,25 @@ math.h
 stdint.h
 -
 
-/home/lee/ELAS_Opencv/orig_elas/src/elas.cpp
+/home/colin/catkin_modelas_ws/src/orig_elas/src/elas.cpp
 elas.h
-/home/lee/ELAS_Opencv/orig_elas/src/elas.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/elas.h
 algorithm
 -
 math.h
 -
 descriptor.h
-/home/lee/ELAS_Opencv/orig_elas/src/descriptor.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/descriptor.h
 triangle.h
-/home/lee/ELAS_Opencv/orig_elas/src/triangle.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/triangle.h
 matrix.h
-/home/lee/ELAS_Opencv/orig_elas/src/matrix.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/matrix.h
 fstream
 -
 iostream
 -
 
-/home/lee/ELAS_Opencv/orig_elas/src/elas.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/elas.h
 iostream
 -
 stdio.h
@@ -68,9 +68,9 @@ opencv2/opencv.hpp
 stdint.h
 -
 timer.h
-/home/lee/ELAS_Opencv/orig_elas/src/timer.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/timer.h
 
-/home/lee/ELAS_Opencv/orig_elas/src/filter.cpp
+/home/colin/catkin_modelas_ws/src/orig_elas/src/filter.cpp
 stdio.h
 -
 string.h
@@ -78,11 +78,11 @@ string.h
 cassert
 -
 filter.h
-/home/lee/ELAS_Opencv/orig_elas/src/filter.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/filter.h
 stdint.h
 -
 
-/home/lee/ELAS_Opencv/orig_elas/src/filter.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/filter.h
 emmintrin.h
 -
 pmmintrin.h
@@ -90,7 +90,7 @@ pmmintrin.h
 stdint.h
 -
 
-/home/lee/ELAS_Opencv/orig_elas/src/main.cpp
+/home/colin/catkin_modelas_ws/src/orig_elas/src/main.cpp
 unistd.h
 -
 sys/time.h
@@ -114,25 +114,25 @@ algorithm
 math.h
 -
 descriptor.h
-/home/lee/ELAS_Opencv/orig_elas/src/descriptor.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/descriptor.h
 elas.h
-/home/lee/ELAS_Opencv/orig_elas/src/elas.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/elas.h
 boost/progress.hpp
-/home/lee/ELAS_Opencv/orig_elas/src/boost/progress.hpp
+/home/colin/catkin_modelas_ws/src/orig_elas/src/boost/progress.hpp
 fstream
 -
 iostream
 -
 
-/home/lee/ELAS_Opencv/orig_elas/src/matrix.cpp
+/home/colin/catkin_modelas_ws/src/orig_elas/src/matrix.cpp
 matrix.h
-/home/lee/ELAS_Opencv/orig_elas/src/matrix.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/matrix.h
 algorithm
 -
 math.h
 -
 
-/home/lee/ELAS_Opencv/orig_elas/src/matrix.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/matrix.h
 stdio.h
 -
 string.h
@@ -146,7 +146,7 @@ vector
 stdint.h
 -
 
-/home/lee/ELAS_Opencv/orig_elas/src/timer.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/timer.h
 iostream
 -
 iomanip
@@ -166,7 +166,7 @@ sys/time.h
 stdint.h
 -
 
-/home/lee/ELAS_Opencv/orig_elas/src/triangle.cpp
+/home/colin/catkin_modelas_ws/src/orig_elas/src/triangle.cpp
 stdio.h
 -
 stdlib.h
@@ -176,9 +176,9 @@ string.h
 math.h
 -
 triangle.h
-/home/lee/ELAS_Opencv/orig_elas/src/triangle.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/triangle.h
 
-/home/lee/ELAS_Opencv/orig_elas/src/triangle.h
+/home/colin/catkin_modelas_ws/src/orig_elas/src/triangle.h
 
 /opt/ros/kinetic/include/opencv-3.3.1-dev/opencv/cv.h
 opencv2/core/core_c.h
