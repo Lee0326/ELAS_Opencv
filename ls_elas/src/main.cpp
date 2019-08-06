@@ -33,9 +33,9 @@ using std::vector;
 int main(int argc, char *argv[])
 {
     string data_dir = "../img/";
-    string left_image = "aloe_left.pgm"; 
-    string right_image = "aloe_right.pgm";
-    string ground_truth = "aloe_disp1.png";
+    string left_image = "baby1.png"; 
+    string right_image = "baby5.png";
+    string ground_truth = "view1_baby.png";
     Mat left = imread(data_dir + left_image);
     Mat right = imread(data_dir +  right_image);
     Mat disp_gt = imread(data_dir + ground_truth);
@@ -68,6 +68,7 @@ int main(int argc, char *argv[])
     int chnls = disp_gt.channels();
     imwrite("disparity.pgm", disparity1);
     imwrite("ls_triangulation.jpg", image_left);
+    imwrite("line_segments.jpg", left);
     
     imshow("disparity", image_left);
     imshow("line_segments", left);

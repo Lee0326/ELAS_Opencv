@@ -10,6 +10,8 @@ find_package(catkin REQUIRED cv_bridge tf)
 
 # directories
 set (LIBELAS_SRC_DIR src)
+set (INC_DIR /usr/local/include/include_fade2d)
+set (LINK_DIR /usr/local/lib)
 
 # include directory
 include_directories(
@@ -17,7 +19,10 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
   ${Boost_INCLUDE_DIR}
-  ${EIGEN3_INCLUDE_DIR})
+  ${EIGEN3_INCLUDE_DIR}
+  ${INC_DIR})
+
+link_directories(${LINK_DIR})
 
 # use sse3 instruction set
 SET(CMAKE_CXX_FLAGS "-msse3")
@@ -30,5 +35,5 @@ set(CMAKE_BUILD_TYPE Release)
 
 # build demo program
 add_executable(ls_elas ${LIBELAS_SRC_FILES})
-target_link_libraries(ls_elas ${OpenCV_LIBS} ${catkin_LIBRARIES})
+target_link_libraries(ls_elas ${OpenCV_LIBS} ${catkin_LIBRARIES} libfade2d.so)
 

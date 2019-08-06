@@ -2,6 +2,8 @@
     "files.associations": {
         "iostream": "cpp",
         "future": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "ostream": "cpp",
+        "cmath": "cpp"
     }
 }
