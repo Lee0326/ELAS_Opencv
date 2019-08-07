@@ -204,7 +204,7 @@ void Elas::ComputeDisparity(Mat &image_left, vector<Point3i> support_points, con
   Mat disparity_grid_left(grid_height * grid_width, param_.disp_max + 2, CV_16S, Scalar(0));
   Mat disparity_grid_right(grid_height * grid_width, param_.disp_max + 2, CV_16S, Scalar(0));
 
-  triangulate_points = ComputeDelaunayTriangulation(support_points, is_right_image, disparity.cols, disparity.rows);
+  // triangulate_points = ComputeDelaunayTriangulation(support_points, is_right_image, disparity.cols, disparity.rows);
 
 
   Fade_2D dt;
@@ -216,7 +216,7 @@ void Elas::ComputeDisparity(Mat &image_left, vector<Point3i> support_points, con
   vector<Triangle2*> vAllTriangles;
   dt.getTrianglePointers(vAllTriangles);
   
-  //triangulate_points = ComputeConstrainedDelaunayTriangulation(vAllTriangles, is_right_image, disparity.cols, disparity.rows);
+  triangulate_points = ComputeConstrainedDelaunayTriangulation(vAllTriangles, is_right_image, disparity.cols, disparity.rows);
 
 
 
@@ -348,26 +348,26 @@ vector<vector<Point>> &lineSegments_left, const int32_t &width, const int32_t &h
 void Elas::ComputeSupportMatches(const Mat &image_left, const Mat &image_right, Mat &disp_gt, const vector<vector<Point>> &lineSegments_left, 
 const vector<vector<Point>> &lineSegments_right, vector<Point3i> &support_points, vector<Segment2> &vSegments)
 {
+  
   Ptr<DescriptorExtractor> extractor;
 
-  extractor = ORB::create();
+  extractor = ORB::create(500, 1.2f, 8, 2);
   
   Mat d_descriptorsL, d_descriptorsR;
 
   vector<KeyPoint> keyPoints_1, keyPoints_2;
 
-  vector<vector<KeyPoint>> final_segments;
 
   int candidate_stepsize = param_.candidate_stepsize;
 
   assert(candidate_stepsize>0);
 
-  int apertureSize = 3;
-
+  int apertureSize = 5;
+  int min_y = 100000;
+  int max_y = 0;
 // Select keypoints from line segments results in left image
   for (auto line:lineSegments_left)
   { 
-    vector<KeyPoint> left_line; 
     for (int i = candidate_stepsize; i < line.size(); i += candidate_stepsize)
     {
       // cout << "the index of the line: " << i << endl; 
@@ -377,14 +377,12 @@ const vector<vector<Point>> &lineSegments_right, vector<Point3i> &support_points
       newKeyPoint.pt = Point2f(line[i].x, line[i].y);
       newKeyPoint.size = 2*apertureSize;
       keyPoints_1.push_back(newKeyPoint);
-      left_line.push_back(newKeyPoint);
     }
-    final_segments.push_back(left_line);
   }
+
 // Select keypoints from line segments results in right image
   for (auto line:lineSegments_right)
   { 
-    vector<KeyPoint> right_line;
     for (int i = candidate_stepsize; i < line.size(); i += candidate_stepsize)
     {
       // cout << "the index of the line: " << i << endl; 
@@ -394,7 +392,6 @@ const vector<vector<Point>> &lineSegments_right, vector<Point3i> &support_points
       newKeyPoint.pt = Point2f(line[i].x, line[i].y);
       newKeyPoint.size = 2*apertureSize;
       keyPoints_2.push_back(newKeyPoint);
-      right_line.push_back(newKeyPoint);
     }
   }
 
@@ -404,35 +401,32 @@ const vector<vector<Point>> &lineSegments_right, vector<Point3i> &support_points
   bool crossCheck = false;
   Ptr<DescriptorMatcher> matcher;
   vector<DMatch> matches;
-  int normType = cv::NORM_HAMMING;
+  int normType = cv::NORM_HAMMING; 
   matcher = BFMatcher::create(normType, crossCheck);
   matcher->match(d_descriptorsL, d_descriptorsR, matches);
 
   cout << "the size of the keypoints in left is: " << keyPoints_1.size() << endl;
   cout << "the size of the descriptor in left is: " << d_descriptorsL.size() << endl;
 
-  // for (int i = 0; i < keyPoints_1.size(); i++)
-  // {
-  //   if (abs(keyPoints_1[i].pt.y - keyPoints_2[matches[i].trainIdx].pt.y) < 2 && (int)keyPoints_1[i].pt.y % param_.step_size == 0)
-  //   {
-  //     support_points.push_back(Point3i(keyPoints_1[i].pt.x, keyPoints_1[i].pt.y,
-  //                                       keyPoints_1[i].pt.x - keyPoints_2[matches[i].trainIdx].pt.x));
-  //   }
-  // }
-  // Instantiate the segments vector using the matched keypoints
   for (int i = 0; i < keyPoints_1.size(); i++)
   {
-    if (abs(keyPoints_1[i].pt.y - keyPoints_2[matches[i].trainIdx].pt.y) < 2 && (int)keyPoints_1[i].pt.y % param_.step_size == 0)
+    // if (abs(keyPoints_1[i].pt.y - keyPoints_2[matches[i].trainIdx].pt.y) < 2 && (int)keyPoints_1[i].pt.y % param_.step_size == 0)
+    if (keyPoints_1[i].pt.y < min_y) min_y = keyPoints_1[i].pt.y;
+    if (keyPoints_1[i].pt.y > max_y) max_y = keyPoints_1[i].pt.y;
+
+    if (abs(keyPoints_1[i].pt.y - keyPoints_2[matches[i].trainIdx].pt.y) < 2)
     {
       support_points.push_back(Point3i(keyPoints_1[i].pt.x, keyPoints_1[i].pt.y,
       keyPoints_1[i].pt.x - keyPoints_2[matches[i].trainIdx].pt.x));
     }
   }
+  cout << "The minimum y coordinate of keypoints in the left is: "<< min_y << endl;
+  cout << "The maximum y coordinate of keypoints in the left is: "<< max_y << endl;
 
   for (auto line:lineSegments_left)
   {
     int last_valid = -1;
-    for (int i=0; i<line.size(); i++)
+    for (int i = candidate_stepsize; i < line.size(); i += candidate_stepsize)
     {
       for (int k = 0; k < support_points.size(); k++)
       {

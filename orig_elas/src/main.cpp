@@ -148,6 +148,7 @@ int main(int argc, char *argv[])
         cv::Mat left_gray, right_gray;
         Mat disparity1(height_, width_, CV_32F);
         Mat disparity2(height_, width_, CV_32F);
+        Mat disp8U(height_, width_, CV_8U);
 
         if (left.channels()>1)
         {
@@ -173,7 +174,8 @@ int main(int argc, char *argv[])
         //elas.descriptor_left_ = descriptor_left.CreateDescriptor();
         //elas.descriptor_right_ = descriptor_right.CreateDescriptor();
         //vector<Point3i> support_points = elas.ComputeSupportMatches();
-        imwrite("disparity.pgm", disparity1);
+        normalize(disparity1, disp8U, 0, 255, NORM_MINMAX, CV_8UC1);
+        imwrite("disparity.pgm", disp8U);
     } else
     { 
         cout << endl;

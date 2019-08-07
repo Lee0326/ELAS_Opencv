@@ -42,8 +42,9 @@ int main(int argc, char *argv[])
     int width_ = left.cols;
     int height_ = left.rows;		
     cv::Mat left_gray, right_gray;
-    Mat disparity1(height_, width_, CV_32F);
-    Mat disparity2(height_, width_, CV_32F);
+    Mat disparity_left(height_, width_, CV_32F);
+    Mat disparity_right(height_, width_, CV_32F);
+    Mat disp8U(height_,width_, CV_8U);
 
 
     if (left.channels()>1)
@@ -64,9 +65,10 @@ int main(int argc, char *argv[])
     Elas::parameters param;
     // param.postprocess_only_left = false;
     Elas elas(param);
-    elas.process(left, image_left, image_right, disparity1, disparity2, disp_gt);
+    elas.process(left, image_left, image_right, disparity_left, disparity_right, disp_gt);
     int chnls = disp_gt.channels();
-    imwrite("disparity.pgm", disparity1);
+    normalize(disparity_left, disp8U, 0, 255, NORM_MINMAX, CV_8UC1);
+    imwrite("disparity.pgm", disp8U);
     imwrite("ls_triangulation.jpg", image_left);
     imwrite("line_segments.jpg", left);
     
